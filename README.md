@@ -4,7 +4,7 @@
 
 - [About](#about)
 - [Quick Start](#quick-start)
-- [People Using Zshing](#people-using-zshing)
+- [Using Zshing](#using-zshing)
 - [TODO](#todo)
 
 ## About
@@ -14,10 +14,10 @@
 [Zshing] allows you to...
 
 * keep track of and configure your plugins right in the `.zshrc`
-* [install] Zsh plugins 
-* [update] Zsh plugins
-* [search] by name all available Zsh Plugins
-* [clean] unused plugins up
+* Install Zsh plugins 
+* Update Zsh plugins
+* Search by name all available Zsh Plugins
+* Clean unused plugins up
 * run the above actions in a *single command*
 
 [Zshing] automatically...
@@ -32,7 +32,7 @@
 
 1. Introduction:
 
-   Installation requires __Git__ and triggers [`git clone`] for each configured repository to `~/zshing` by default.
+   Installation requires __Git__ and triggers `git clone` for each configured repository to `~/zshing` by default.
    Curl is required for search.
 
 2. Set up [Zshing]:
@@ -53,7 +53,7 @@
     )
    ```
 
-## People Using Zshing
+## Using Zshing
 
 ```
     ZSHING ( 0.1 )
