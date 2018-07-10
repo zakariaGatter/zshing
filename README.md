@@ -51,7 +51,15 @@
         "zakariaGatter/MarkEdit"
         "zakariaGatter/MarkGate"
     )
+
+    # source zshing plugin 
+    source $HOME/.zshing/zshing/zshing.zsh
    ```
+
+4. Note :
+    if you find this message and you sure that the plugin is work propuply 
+    just add `.zsh` to the source file 
+    [X] -: """" :- Zshing can't source This Plugin there is no [zsh/sh] extantion
 
 ## Using Zshing
 
@@ -76,7 +84,7 @@
 * [X] Search for Plugins
 * [X] Update Plugins 
 * [X] Clean Unwanted Plugins
-* [ ] Update Plugins List everytime you run `zshing_search`
+* [X] Update Plugins List everytime you run `zshing_search`
 * [ ] install Plugins From Other websites
 
 

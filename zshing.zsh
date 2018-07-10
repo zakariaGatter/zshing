@@ -83,19 +83,14 @@ rm -rf "$ZSHING_DIR/$1" >> /dev/null
 # ZShing Install Command #
 #------------------------#
 zshing_install () {
+
 for ZI in ${ZSHING_PLUGINS[@]} ; do 
-
-# get repo name 
-ZI_NAME=$(echo "$ZI" | cut -d / -f2-)
-
-# check if repo allready exist 
-[ -d "$ZSHING_DIR/$ZI_NAME" ] || {
-    _GIT_INSTALL_ "$ZI" "$ZSHING_DIR/$ZI_NAME"
-}
-
+    ZI_NAME=$(echo "$ZI" | cut -d / -f2-)
+    [ -d "$ZSHING_DIR/$ZI_NAME" ] || {
+        _GIT_INSTALL_ "$ZI" "$ZSHING_DIR/$ZI_NAME"
+    }
 done 
 
-# source the zshrc 
 source ~/.zshrc
 
 unset ZI ZI_NAME
@@ -110,22 +105,13 @@ zshing_update () {
 CD="$PWD"
 
 for ZU in ${ZSHING_PLUGINS[@]} ; do 
-
-# get repo name 
-ZU_NAME=$(echo "$ZU" | cut -d / -f2-)
-
-# go to repo 
-cd "$ZSHING_DIR/$ZU_NAME"
-
-# update the repo 
-_GIT_UPDATE_ "$ZU"
-
+    ZU_NAME=$(echo "$ZU" | cut -d / -f2-)
+    cd "$ZSHING_DIR/$ZU_NAME"
+    _GIT_UPDATE_ "$ZU"
 done 
 
-# back to current directory
 cd $CD
 
-# source the zshrc 
 source ~/.zshrc
 
 unset ZU CD ZU_NAME
@@ -138,10 +124,8 @@ zshing_clean () {
 LIST_PLUGINS=$(ls -d $ZSHING_DIR/*/ | cut -d / -f1)
 
 for ZC in ${ZSHING_PLUGINS[@]}; do 
-ZC_NAME=$(echo "$ZC" | cut -d / -f2-)
-
-LIST_PLUGINS=$(echo "$LIST_PLUGINS" | sed "s:$ZC_NAME::")
-
+    ZC_NAME=$(echo "$ZC" | cut -d / -f2-)
+    LIST_PLUGINS=$(echo "$LIST_PLUGINS" | sed "s:$ZC_NAME::")
 done 
 
 for DZC in $(echo $LIST_PLUGINS) ; do 
@@ -157,6 +141,10 @@ unset DZC LIST_PLUGINS ZC_NAME
 # Zshing search Command #
 #-----------------------#
 zshing_search () {
+[ "$CURL_ZSHING" != "true" ] && {
+    curl https://raw.githubusercontent.com/zakariaGatter/zshing/master/.list > $ZSHING_LIST
+    CURL_ZSHING="true"
+}
 grep -i --color=auto "$1" $ZSHING_LIST
 }
 
