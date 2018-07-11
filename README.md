@@ -9,7 +9,7 @@
 
 ## About
 
-[Zshing] Zsh plugin manager similaire to VundleVim
+[Zshing] Zsh plugin manager similar to VundleVim
 
 [Zshing] allows you to...
 
@@ -57,9 +57,9 @@
    ```
 
 4. Note :
-    if you find this message and you sure that the plugin is work propuply 
+    if you find this message and you sure that the plugin is work properly 
     just add `.zsh` to the source file 
-    [X] -: """" :- Zshing can't source This Plugin there is no [zsh/sh] extantion
+    [X] -: """" :- Zshing can't source This Plugin there is no [zsh/sh] extension
 
 ## Using Zshing
 
@@ -71,7 +71,7 @@
 
     OPTS : 
         zshing_install  [Install Plugin direct from source]
-        zshing_update   [Update exist Plugins in youe system]
+        zshing_update   [Update existing Plugins in your system]
         zshing_clean    [Clean and Remove unwanted Plugins]
         zshing_search   [Search for Plugins Themes and Completions]
         zshing_help     [Show this help Dialog]
@@ -84,7 +84,7 @@
 * [X] Search for Plugins
 * [X] Update Plugins 
 * [X] Clean Unwanted Plugins
-* [X] Update Plugins List everytime you run `zshing_search`
+* [X] Update Plugins List every time you run `zshing_search`
 * [ ] install Plugins From Other websites
 
 
