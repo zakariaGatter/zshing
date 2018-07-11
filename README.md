@@ -63,7 +63,7 @@
 
     OPTS : 
         zshing_install  [Install Plugin direct from source]
-        zshing_update   [Update exist Plugins in youe system]
+        zshing_update   [Update existing Plugins in your system]
         zshing_clean    [Clean and Remove unwanted Plugins]
         zshing_search   [Search for Plugins Themes and Completions]
         zshing_help     [Show this help Dialog]
