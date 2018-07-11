@@ -6,7 +6,7 @@ ZSHING_LIST="$(dirname $0)/.list"
 #---------------#
 # Enable option #
 #---------------#
-setopt nonomatch # enable retuen null if command not working
+setopt nonomatch # enable return null if command not working
 
 #-------------#
 # Help Dialog #
@@ -16,11 +16,11 @@ echo "
     ZSHING ( 0.1 )
     Write by Zakaria Gatter (zakaria.gatter@gmail.com)
 
-    Zsh Plugin to manage Plugin semiler to VundleVim
+    Zsh Plugin to manage Plugin similar to VundleVim
 
     OPTS : 
         zshing_install  [Install Plugin direct from source]
-        zshing_update   [Update exist Plugins in youe system]
+        zshing_update   [Update existing Plugins in your system]
         zshing_clean    [Clean and Remove unwanted Plugins]
         zshing_search   [Search for Plugins Themes and Completions]
         zshing_help     [Show this help Dialog]
@@ -37,9 +37,9 @@ echo -en "[?] -: $1 :- Is Installing ... \r"
 # git clone the repo with out show output
 git clone https://github.com/$1 $2 >> /dev/null
 
-# show msg if the command is seccus or not 
+# show msg if the command is success or not 
 [ "$?" = 0 ] && {
-    echo -en "[+] -: $1 :- Install Seccusfuly "
+    echo -en "[+] -: $1 :- Install Successfully "
 } || {
     echo -en "[X] -: $1 :- There is Unknown Error it maybe connection or reponame "
 }
@@ -54,9 +54,9 @@ echo -en "[?] -: $1 :- Is Updating ... \r"
 # git pull the repo with out show output
 git pull >> /dev/null
 
-# show msg if the command is seccus or not 
+# show msg if the command is success or not 
 [ "$?" = 0 ] && {
-    echo -en "[^] -: $1 :- Update Seccusfuly "
+    echo -en "[^] -: $1 :- Update Successfully "
 } || {
     echo -en "[X] -: $1 :- There is Unknown Error it maybe connection or reponame "
 }
@@ -71,9 +71,9 @@ echo -en "[?] -: $1 :- Is Removing ... \r"
 # Remove the repo with out show output
 rm -rf "$ZSHING_DIR/$1" >> /dev/null
 
-# show msg if the command is seccus or not 
+# show msg if the command is success or not 
 [ "$?" = 0 ] && {
-    echo -en "[-] -: $1 :- Removed Seccusfuly "
+    echo -en "[-] -: $1 :- Removed Successfully "
 } || {
     echo -en "[X] -: $1 :- There is Unknown Error "
 }
