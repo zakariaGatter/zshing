@@ -57,9 +57,12 @@
    ```
 
 4. Note :
+
     if you find this message and you sure that the plugin is work properly 
-    just add `.zsh` to the source file 
-    [X] -: """" :- Zshing can't source This Plugin there is no [zsh/sh] extension
+    
+    > [X] -: """" :- Zshing can't source This Plugin there is no [zsh/sh] extension
+    
+    just add `.zsh` to the source file
 
 ## Using Zshing
 
