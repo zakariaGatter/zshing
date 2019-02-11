@@ -25,7 +25,7 @@ echo "
         zshing_search   [Search for Plugins Themes and Completions]
         zshing_help     [Show this help Dialog]
 "
-exit 0
+return 0
 }
 
 #------------------#
@@ -35,13 +35,13 @@ _GIT_INSTALL_ () {
 echo -en "[?] -: $1 :- Is Installing ... \r"
 
 # git clone the repo with out show output
-git clone https://github.com/$1 $2 >> /dev/null
+git clone https://github.com/$1 $2 &> /dev/null
 
 # show msg if the command is success or not 
 [ "$?" = 0 ] && {
-    echo -en "[+] -: $1 :- Install Successfully "
+    echo -e "[+] -: $1 :- Install Successfully "
 } || {
-    echo -en "[X] -: $1 :- There is Unknown Error it maybe connection or reponame "
+    echo -e "[X] -: $1 :- There is Unknown Error it maybe connection or reponame "
 }
 }
 
@@ -52,13 +52,13 @@ _GIT_UPDATE_ () {
 echo -en "[?] -: $1 :- Is Updating ... \r"
 
 # git pull the repo with out show output
-git pull >> /dev/null
+git pull &> /dev/null
 
 # show msg if the command is success or not 
 [ "$?" = 0 ] && {
-    echo -en "[^] -: $1 :- Update Successfully "
+    echo -e "[^] -: $1 :- Update Successfully "
 } || {
-    echo -en "[X] -: $1 :- There is Unknown Error it maybe connection or reponame "
+    echo -e "[X] -: $1 :- There is Unknown Error it maybe connection or reponame "
 }
 }
 
@@ -73,9 +73,9 @@ rm -rf "$ZSHING_DIR/$1" >> /dev/null
 
 # show msg if the command is success or not 
 [ "$?" = 0 ] && {
-    echo -en "[-] -: $1 :- Removed Successfully "
+    echo -e "[-] -: $1 :- Removed Successfully "
 } || {
-    echo -en "[X] -: $1 :- There is Unknown Error "
+    echo -e "[X] -: $1 :- There is Unknown Error "
 }
 }
 
@@ -157,10 +157,14 @@ for SZ in ${ZSHING_PLUGINS[@]}; do
 SZ_NAME=$(echo $SZ | cut -d / -f2-)
 
 [ -d "$ZSHING_DIR/$SZ_NAME" ] && {
-    if [ -n "$(ls $ZSHING_DIR/$SZ_NAME/*.zsh*)" ];then 
-        source $ZSHING_DIR/$SZ_NAME/*.zsh*
-    elif [ -n "$(ls $ZSHING_DIR/$SZ_NAME/*.sh*)" ];then 
-        source $ZSHING_DIR/$SZ_NAME/*.sh*
+    if [ -f $ZSHING_DIR/$SZ_NAME/*.zsh ];then 
+	echo -en "[?] -: $SZ_NAME :- Zshing sourcing this Plugin\r"
+        source $ZSHING_DIR/$SZ_NAME/*.zsh
+	echo -e "[+] -: $SZ_NAME :- Sourced Successfully"
+    elif [ -f $ZSHING_DIR/$SZ_NAME/*.sh ];then 
+	echo -en "[?] -: $SZ_NAME :- Zshing sourcing this Plugin\r"
+        source $ZSHING_DIR/$SZ_NAME/*.sh
+	echo -e "[+] -: $SZ_NAME :- Sourced Successfully"
     else
         echo -e "[X] -: $SZ :- Zshing can't source This Plugin there is no [zsh/sh] extantion "
         N_SZ=$(($N_SZ+1))
@@ -169,6 +173,6 @@ SZ_NAME=$(echo $SZ | cut -d / -f2-)
 
 done 
 
-[ "$N_SZ" -eq 0 ] || exit 1
+[ "$N_SZ" -eq 0 ] || return 1
 
 unset SZ N_SZ
