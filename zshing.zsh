@@ -142,7 +142,7 @@ unset DZC LIST_PLUGINS ZC_NAME
 #-----------------------#
 zshing_search () {
 [ "$CURL_ZSHING" != "true" ] && {
-    curl https://raw.githubusercontent.com/zakariaGatter/zshing/master/.list > $ZSHING_LIST
+    curl -o $ZSHING_LIST https://raw.githubusercontent.com/zakariaGatter/zshing/master/.list &> /dev/null
     CURL_ZSHING="true"
 }
 grep -i --color=auto "$1" $ZSHING_LIST
