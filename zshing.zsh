@@ -156,6 +156,8 @@ N_SZ=0
 for SZ in ${ZSHING_PLUGINS[@]}; do 
 SZ_NAME=$(echo $SZ | cut -d / -f2-)
 
+if [ "$SZ_NAME" != "zshing" ];then 
+
 [ -d "$ZSHING_DIR/$SZ_NAME" ] && {
     if [ -f $ZSHING_DIR/$SZ_NAME/*.zsh ];then 
 	echo -en "[?] -: $SZ_NAME :- Zshing sourcing this Plugin\r"
@@ -170,6 +172,7 @@ SZ_NAME=$(echo $SZ | cut -d / -f2-)
         N_SZ=$(($N_SZ+1))
     fi
 }
+fi
 
 done 
 
