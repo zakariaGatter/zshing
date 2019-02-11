@@ -160,15 +160,11 @@ if [ "$SZ_NAME" != "zshing" ];then
 
 [ -d "$ZSHING_DIR/$SZ_NAME" ] && {
     if [ -f $ZSHING_DIR/$SZ_NAME/*.zsh ];then 
-	echo -en "[?] -: $SZ_NAME :- Zshing sourcing this Plugin\r"
         source $ZSHING_DIR/$SZ_NAME/*.zsh
-	echo -e "[+] -: $SZ_NAME :- Sourced Successfully"
     elif [ -f $ZSHING_DIR/$SZ_NAME/*.sh ];then 
-	echo -en "[?] -: $SZ_NAME :- Zshing sourcing this Plugin\r"
         source $ZSHING_DIR/$SZ_NAME/*.sh
-	echo -e "[+] -: $SZ_NAME :- Sourced Successfully"
     else
-        echo -e "[X] -: $SZ :- Zshing can't source This Plugin there is no [zsh/sh] extantion "
+        echo -e "[X] -: $SZ_NAME :- Zshing can't source This Plugin there is no [zsh/sh] extantion "
         N_SZ=$(($N_SZ+1))
     fi
 }
