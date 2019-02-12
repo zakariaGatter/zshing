@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+#---------------#
+# ZASHING FILES #
+#---------------#
 ZSHING_DIR="$HOME/.zshing"
 ZSHING_LIST="$(dirname $0)/.list"
 
@@ -13,7 +16,7 @@ setopt nonomatch # enable return null if command not working
 #-------------#
 zshing_help () {
 echo "
-    ZSHING ( 0.1 )
+    ZSHING ( 0.2 )
     Write by Zakaria Gatter (zakaria.gatter@gmail.com)
 
     Zsh Plugin to manage Plugin similar to VundleVim
@@ -142,11 +145,31 @@ unset DZC LIST_PLUGINS ZC_NAME
 #-----------------------#
 zshing_search () {
 [ "$CURL_ZSHING" != "true" ] && {
+    echo -en "[?] : Download Plugins List From Network \r"
     curl -o $ZSHING_LIST https://raw.githubusercontent.com/zakariaGatter/zshing/master/.list &> /dev/null
     CURL_ZSHING="true"
+    echo -e "[@] : Plugins List Downloaded Successfully"
 }
 grep -i --color=auto "$1" $ZSHING_LIST
 }
+
+#-----------------------#
+# SOURCE ZSHING PLUGINS #
+#-----------------------#
+_SOURCE_ZSHING_(){ #{{{
+if [ "$1" != "zshing" ];then 
+    [ -d "$ZSHING_DIR/$1" ] && {
+	if [ -f $ZSHING_DIR/$1/*.zsh ];then 
+	    source $ZSHING_DIR/$1/*.zsh
+	elif [ -f $ZSHING_DIR/$1/*.sh ];then 
+	    source $ZSHING_DIR/$1/*.sh
+	else
+	    echo -e "[X] -: $1 :- Zshing can't source This Plugin there is no [zsh/sh] extantion "
+	    N_SZ=$(($N_SZ+1))
+	fi
+    }
+fi
+} #}}}
 
 #------------------------------#
 # Source All Plugins u Install #
@@ -154,24 +177,23 @@ grep -i --color=auto "$1" $ZSHING_LIST
 N_SZ=0
 
 for SZ in ${ZSHING_PLUGINS[@]}; do 
-SZ_NAME=$(echo $SZ | cut -d / -f2-)
-
-if [ "$SZ_NAME" != "zshing" ];then 
-
-[ -d "$ZSHING_DIR/$SZ_NAME" ] && {
-    if [ -f $ZSHING_DIR/$SZ_NAME/*.zsh ];then 
-        source $ZSHING_DIR/$SZ_NAME/*.zsh
-    elif [ -f $ZSHING_DIR/$SZ_NAME/*.sh ];then 
-        source $ZSHING_DIR/$SZ_NAME/*.sh
+if [ -d "$SZ" ];then 
+    if [ -f $SZ/*.zsh ];then 
+	source $SZ/*.zsh
+    elif [ -f $SZ/*.sh ];then 
+	source $SZ/*.sh
     else
-        echo -e "[X] -: $SZ_NAME :- Zshing can't source This Plugin there is no [zsh/sh] extantion "
-        N_SZ=$(($N_SZ+1))
+	echo -e "[X] -: $SZ :- Zshing can't source This Plugin there is no [zsh/sh] extantion "
+	N_SZ=$(($N_SZ+1))
     fi
-}
+else
+    SZ_NAME=$(echo $SZ | cut -d / -f2-)
+    _SOURCE_ZSHING_ "$SZ_NAME"
 fi
-
 done 
 
 [ "$N_SZ" -eq 0 ] || return 1
 
 unset SZ N_SZ
+
+# vim: ft=zsh
