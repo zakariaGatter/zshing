@@ -22,7 +22,7 @@ echo "
     Zsh Plugin to manage Plugin similar to VundleVim
 
     OPTS : 
-        zshing_install  [Install Plugin direct from source]
+        zshing_install  [Install Plugin direct from Local or Online git Repos]
         zshing_update   [Update existing Plugins in your system]
         zshing_clean    [Clean and Remove unwanted Plugins]
         zshing_search   [Search for Plugins Themes and Completions]
@@ -37,15 +37,11 @@ return 0
 _GIT_INSTALL_ () {
 echo -en "[?] -: $1 :- Is Installing ... \r"
 
-# git clone the repo with out show output
-git clone https://github.com/$1 $2 &> /dev/null
-
-# show msg if the command is success or not 
-[ "$?" = 0 ] && {
+if git clone https://github.com/$1 &> /dev/null;then 
     echo -e "[+] -: $1 :- Install Successfully "
-} || {
+else
     echo -e "[X] -: $1 :- There is Unknown Error it maybe connection or reponame "
-}
+fi
 }
 
 #-----------------#
@@ -54,15 +50,11 @@ git clone https://github.com/$1 $2 &> /dev/null
 _GIT_UPDATE_ () {
 echo -en "[?] -: $1 :- Is Updating ... \r"
 
-# git pull the repo with out show output
-git pull &> /dev/null
-
-# show msg if the command is success or not 
-[ "$?" = 0 ] && {
+if git pull &> /dev/null;then
     echo -e "[^] -: $1 :- Update Successfully "
-} || {
+else
     echo -e "[X] -: $1 :- There is Unknown Error it maybe connection or reponame "
-}
+fi
 }
 
 #-----------------#
@@ -72,7 +64,7 @@ _GIT_REMOVED_ () {
 echo -en "[?] -: $1 :- Is Removing ... \r"
 
 # Remove the repo with out show output
-rm -rf "$ZSHING_DIR/$1" >> /dev/null
+rm -rf "$ZSHING_DIR/$1" &> /dev/null
 
 # show msg if the command is success or not 
 [ "$?" = 0 ] && {
@@ -87,16 +79,23 @@ rm -rf "$ZSHING_DIR/$1" >> /dev/null
 #------------------------#
 zshing_install () {
 
+_CD_I_="$PWD"
+
 for ZI in ${ZSHING_PLUGINS[@]} ; do 
-    ZI_NAME=$(echo "$ZI" | cut -d / -f2-)
+if [ ! -d "$ZI" ];then
+    ZI_NAME=$(basename "$ZI")
     [ -d "$ZSHING_DIR/$ZI_NAME" ] || {
-        _GIT_INSTALL_ "$ZI" "$ZSHING_DIR/$ZI_NAME"
+	cd "$ZSHING_DIR"
+        _GIT_INSTALL_ "$ZI"
     }
+fi
 done 
+
+cd "$_CD_I_"
 
 source ~/.zshrc
 
-unset ZI ZI_NAME
+unset ZI ZI_NAME _CD_I_
 }
 
 #-----------------------#
@@ -108,9 +107,11 @@ zshing_update () {
 CD="$PWD"
 
 for ZU in ${ZSHING_PLUGINS[@]} ; do 
-    ZU_NAME=$(echo "$ZU" | cut -d / -f2-)
+if [ ! -d "$ZU" ];then
+    ZU_NAME=$(basename "$ZU")
     cd "$ZSHING_DIR/$ZU_NAME"
     _GIT_UPDATE_ "$ZU"
+fi
 done 
 
 cd $CD
@@ -124,10 +125,10 @@ unset ZU CD ZU_NAME
 # Zshing Clean Command #
 #----------------------#
 zshing_clean () {
-LIST_PLUGINS=$(ls -d $ZSHING_DIR/*/ | cut -d / -f1)
+LIST_PLUGINS=$(ls $ZSHING_DIR/)
 
 for ZC in ${ZSHING_PLUGINS[@]}; do 
-    ZC_NAME=$(echo "$ZC" | cut -d / -f2-)
+    ZC_NAME=$(basename "$ZC")
     LIST_PLUGINS=$(echo "$LIST_PLUGINS" | sed "s:$ZC_NAME::")
 done 
 
@@ -153,10 +154,10 @@ zshing_search () {
 grep -i --color=auto "$1" $ZSHING_LIST
 }
 
-#-----------------------#
-# SOURCE ZSHING PLUGINS #
-#-----------------------#
-_SOURCE_ZSHING_(){ #{{{
+#--------------------#
+# SOURCE GIT PLUGINS #
+#--------------------#
+_SOURCE_GIT_ZSHING_(){ #{{{
 if [ "$1" != "zshing" ];then 
     [ -d "$ZSHING_DIR/$1" ] && {
 	if [ -f $ZSHING_DIR/$1/*.zsh ];then 
@@ -171,6 +172,20 @@ if [ "$1" != "zshing" ];then
 fi
 } #}}}
 
+#-----------------------#
+# SOURCE LOCAL PLUGINS  #
+#-----------------------#
+_SOURCE_LOCAL_ZSHING(){ #{{{
+if [ -f $1/*.zsh ];then 
+    source $1/*.zsh
+elif [ -f $1/*.sh ];then 
+    source $1/*.sh
+else
+    echo -e "[X] -: $1 :- Zshing can't source This Plugin there is no [zsh/sh] extantion "
+    N_SZ=$(($N_SZ+1))
+fi
+} #}}}
+
 #------------------------------#
 # Source All Plugins u Install #
 #------------------------------#
@@ -178,17 +193,10 @@ N_SZ=0
 
 for SZ in ${ZSHING_PLUGINS[@]}; do 
 if [ -d "$SZ" ];then 
-    if [ -f $SZ/*.zsh ];then 
-	source $SZ/*.zsh
-    elif [ -f $SZ/*.sh ];then 
-	source $SZ/*.sh
-    else
-	echo -e "[X] -: $SZ :- Zshing can't source This Plugin there is no [zsh/sh] extantion "
-	N_SZ=$(($N_SZ+1))
-    fi
+    _SOURCE_LOCAL_ZSHING "$SZ"
 else
     SZ_NAME=$(echo $SZ | cut -d / -f2-)
-    _SOURCE_ZSHING_ "$SZ_NAME"
+    _SOURCE_GIT_ZSHING_ "$SZ_NAME"
 fi
 done 
 

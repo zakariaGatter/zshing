@@ -14,7 +14,7 @@
 [Zshing] allows you to...
 
 * keep track of and configure your plugins right in the `.zshrc`
-* Install Zsh plugins 
+* Install Zsh plugins from Github or Localy
 * Update Zsh plugins
 * Search by name all available Zsh Plugins
 * Clean unused plugins up
@@ -33,7 +33,7 @@
 1. Introduction:
 
    Installation requires __Git__ and triggers `git clone` for each configured repository to `~/zshing` by default.
-   Curl is required for search.
+   __Curl__ is required for search.
 
 2. Set up [Zshing]:
 
@@ -49,7 +49,7 @@
     ZSHING_PLUGINS=(
         "zakariaGatter/zshing"
         "zakariaGatter/MarkEdit"
-        "zakariaGatter/MarkGate"
+        "$HOME/Git/MarkGate"
     )
 
     # source zshing plugin 
@@ -60,20 +60,20 @@
 
     if you find this message and you sure that the plugin is work properly 
     
-    > [X] -: """" :- Zshing can't source This Plugin there is no [zsh/sh] extension
+    > [X] -: "REPONAME" :- Zshing can't source This Plugin there is no [zsh/sh] extension
     
-    just add `.zsh` to the source file
+    just add `.zsh/.sh` to the source file
 
 ## Using Zshing
 
 ```
-    ZSHING ( 0.1 )
+    ZSHING ( 0.2 )
     Write by Zakaria Gatter (zakaria.gatter@gmail.com)
 
-    Zsh Plugin to manage Plugin semiler to VundleVim
+    Zsh Plugin to manage Plugin similar to VundleVim
 
     OPTS : 
-        zshing_install  [Install Plugin direct from source]
+        zshing_install  [Install Plugin direct from Local or Online git Repos]
         zshing_update   [Update existing Plugins in your system]
         zshing_clean    [Clean and Remove unwanted Plugins]
         zshing_search   [Search for Plugins Themes and Completions]
@@ -83,12 +83,13 @@
 ## TODO
 [Zshing] is a work in progress, so any ideas and patches are appreciated.
 
-* [X] Install Plugins 
+* [X] Install Plugins from Github
+* [X] Install Plugins Localy
 * [X] Search for Plugins
 * [X] Update Plugins 
 * [X] Clean Unwanted Plugins
 * [X] Update Plugins List every time you run `zshing_search`
-* [ ] install Plugins From Other websites
+* [ ] install Plugins From gitlab and others
 
 
 [Zshing]:http://github.com/zakariaGatter/zshing.vim
