@@ -14,10 +14,12 @@
 [Zshing] allows you to...
 
 * keep track of and configure your plugins right in the `.zshrc`
-* Install Zsh plugins from Github or Localy
-* Install zsh Plugind from Gitlab and BitBucket
+* Install Zsh plugins from Github or Locally
+* Install zsh Plugins from Gitlab and BitBucket and other sites
+* Loas plugins from oh-my-zsh
+* Disable zsh Plugin by add "#" at first
+    * `this plugin wont be removed but wont be load when start zsh, its useful for themes`
 * Update Zsh plugins
-* Search by name all available Zsh Plugins
 * Clean unused plugins up
 * run the above actions in a *single command*
 
@@ -33,52 +35,116 @@
 
 1. Introduction:
 
-   Installation requires : 
+   Installation requires :
     * __Git__ triggers `git clone` for each configured repository to `~/zshing` by default.
-    * __Curl__ is required for search.
 
 2. Set up [Zshing]:
 
-   ` git clone https://gitlab.com/zakariaGatter/zshing.git ~/.zshing/zshing`
+   ```
+   mkdir -p ~/.zshing
+   git clone https://gitlab.com/zakariaGatter/zshing.git ~/.zshing/zshing
+   ```
 
-3. Configure Plugins:
+3. [Zshing] Manual:
+	* Main Plugin Syntax
+
+	```
+	#:Username/repo:branch:site:type:name
+	| |             |      |    |    |
+	| | 			| 	   | 	|	 `- NAME: name option to add the same plugin or theme many time with different names
+	| | 			| 	   | 	|			  leave it empty to take repo name as repo
+	| | 			| 	   |	|
+	| | 			| 	   | 	`- TYPE: What the type of this Plugin, default value: (plugin|theme|completion|rc)
+	| | 			| 	   |
+	| | 			| 	   `- SITE: Where to Download this repo from, default value: (gitlab|github|local|https://*)
+	| | 			| 		  you can set full url of website, the URL Need to support git clone
+	| | 			| 		  Local is for local plugins
+	| | 		    | 		  leave it empty to take github as default
+	| | 			|
+	| | 			`- BRANCH: use any branch you like, leave it empty tp take Master as default
+	| |
+	| `- REPO: repo name can be as above or as a plugin dir, ex: ($HOME/path/to/plugin)
+	|
+	`- STAT: add # to disable this plugin, the plugin keep updating and will not remove but wont load with zsh
+
+	Examples:
+		ZSHING_PLUGINS=(
+			# disable plugin, this plugin will update but won't load with zsh
+			"#:zakariagatter/zshing:master:gitlab:plugin:zshing"
+
+			# Gitlab Plugin
+			":zakariagatter/markgate:master:gitlab:plugin:"
+
+			# load arch plugin from oh-my-zsh
+			":::oh-my-zsh:plugin:arch"
+		)
+
+	```
+
+	* Oh-my-zsh Syntax :
+
+	```
+	#:::oh-my-zsh:(plugin|theme|lib):name
+	| | |			|				   |
+	| | |			|				   `- You can set plugin,theme or lib name
+	| | |			|					  Ex : :::oh-my-zsh:plugin:arch
+	| | |			|					  Note: if you want to use any theme i recomand you to active git lib (ex: ::master:oh-my-zsh:lib:git)
+	| | |			|
+	| | |			`- Set the Plugin Type
+	| | |			   if set Theme,lib just give the name no Extantions
+	| | |
+	| | `-  Leave it as it is
+	| |
+	| `- Just leave it Empty
+	|
+	`- Add # To Disable only this plugin
+
+	Examples:
+		ZSHING_PLUGINS=(
+			# load arch plugin from oh-my-zsh
+			":::oh-my-zsh:plugin:arch"
+		)
+
+	```
+
+4. Configure Plugins:
 
    Put this at the top of your `.zshrc` to use Zshing. Remove plugins you don't need, they are for illustration purposes.
 
    ```zsh
-    # Set Plugin configuration Before ZSHING_PLUGINS
-    
-    ZSHING_PLUGINS=(
-        "https://gitlab.com/zakariaGatter/zshing" # Downlad from gitlab Leave it for future updates 
-        "zakariaGatter/MarkEdit" # github on default 
-        "$HOME/Git/MarkGate" # a local Plugin
-    )
+	# Zshing Main Dir
+    ZSHING_DIR="$HOME/.zshing"
 
-    # source zshing plugin 
-    source $HOME/.zshing/zshing/zshing.zsh
+    # Set Plugin configuration Before ZSHING_PLUGINS {{{
+    ZSHING_PLUGINS=(
+		# disable plugin, this plugin will update but won't load zsh
+		"#:zakariagatter/zshing:master:gitlab:plugin:zshing"
+    )
+	# }}}
+
+    # set here all plugins Settings and arguments before you source Zshing {{{
+	#}}}
+
+    # source zshing plugin
+    source "$ZSHING_DIR/zshing/zshing.zsh"
    ```
 
-4. Note :
+5. Note :
 
-    if you find this message and you sure that the plugin is work properly 
-    
-    > [X] -: "REPONAME" :- Zshing can't source This Plugin there is no [zsh/sh] extension
-    
-    just add `.zsh/.sh` to the source file
+    * Add all plugins settings and Argument before You source Zshing
 
 ## Using Zshing
 
 ```
-    ZSHING ( 0.3 )
+    ZSHING ( 0.4 )
     Write by Zakaria Gatter (zakaria.gatter@gmail.com)
 
     Zsh Plugin to manage Plugin similar to VundleVim
 
-    OPTS : 
+    OPTS :
         zshing_install  [Install Plugin direct from Local or Online git Repos]
         zshing_update   [Update existing Plugins in your system]
         zshing_clean    [Clean and Remove unwanted Plugins]
-        zshing_search   [Search for Plugins Themes and Completions]
         zshing_help     [Show this help Dialog]
 ```
 
@@ -86,12 +152,12 @@
 [Zshing] is a work in progress, so any ideas and patches are appreciated.
 
 * [X] Install Plugins from Github
-* [X] Install Plugins Localy
-* [X] Search for Plugins
-* [X] Update Plugins 
+* [X] Install Plugins Locally
+* [X] Load plugin from oh-my-zsh
+* [X] Update Plugins
 * [X] Clean Unwanted Plugins
-* [X] Update Plugins List every time you run `zshing_search`
-* [X] Install Plugins From gitlab and others
+* [X] Disable Plugin and themes
+* [X] Install Plugins From Gitlab,BitBucket
 
 
 [Zshing]:http://gitlab.com/zakariagatter/zshing
