@@ -46,84 +46,84 @@
    ```
 
 3. [Zshing] Manual:
-	* Main Plugin Syntax
+    * Main Plugin Syntax
 
-	```
-	#:Username/repo:branch:site:type:name
-	| |             |      |    |    |
-	| | 			| 	   | 	|	 `- NAME: name option to add the same plugin or theme many time with different names
-	| | 			| 	   | 	|			  leave it empty to take repo name as repo
-	| | 			| 	   |	|
-	| | 			| 	   | 	`- TYPE: What the type of this Plugin, default value: (plugin|theme|completion|rc)
-	| | 			| 	   |
-	| | 			| 	   `- SITE: Where to Download this repo from, default value: (gitlab|github|local|https://*)
-	| | 			| 		  you can set full url of website, the URL Need to support git clone
-	| | 			| 		  Local is for local plugins
-	| | 		    | 		  leave it empty to take github as default
-	| | 			|
-	| | 			`- BRANCH: use any branch you like, leave it empty tp take Master as default
-	| |
-	| `- REPO: repo name can be as above or as a plugin dir, ex: ($HOME/path/to/plugin)
-	|
-	`- STAT: add # to disable this plugin, the plugin keep updating and will not remove but wont load with zsh
+    ```
+    #:Username/repo:branch:site:type:name
+    | |             |      |    |    |
+    | |             |      |    |    `- NAME: name option to add the same plugin or theme many time with different names
+    | |             |      |    |             leave it empty to take repo name as repo
+    | |             |      |    |
+    | |             |      |    `- TYPE: What the type of this Plugin, default value: (plugin|theme|completion|rc)
+    | |             |      |
+    | |             |      `- SITE: Where to Download this repo from, default value: (gitlab|github|local|https://*)
+    | |             |         you can set full url of website, the URL Need to support git clone
+    | |             |         Local is for local plugins
+    | |             |         leave it empty to take github as default
+    | |             |
+    | |             `- BRANCH: use any branch you like, leave it empty tp take Master as default
+    | |
+    | `- REPO: repo name can be as above or as a plugin dir, ex: ($HOME/path/to/plugin)
+    |
+    `- STAT: add # to disable this plugin, the plugin keep updating and will not remove but wont load with zsh
 
-	Examples:
-		ZSHING_PLUGINS=(
-			# disable plugin, this plugin will update but won't load with zsh
-			"#:zakariagatter/zshing:master:gitlab:plugin:zshing"
+    Examples:
+        ZSHING_PLUGINS=(
+            # disable plugin, this plugin will update but won't load with zsh
+            "#:zakariagatter/zshing:master:gitlab:plugin:zshing"
 
-			# Gitlab Plugin
-			":zakariagatter/markgate:master:gitlab:plugin:"
+            # Gitlab Plugin
+            ":zakariagatter/markgate:master:gitlab:plugin:"
 
-			# load arch plugin from oh-my-zsh
-			":::oh-my-zsh:plugin:arch"
-		)
+            # load arch plugin from oh-my-zsh
+            ":::oh-my-zsh:plugin:arch"
+        )
 
-	```
+    ```
 
-	* Oh-my-zsh Syntax :
+    * Oh-my-zsh Syntax :
 
-	```
-	#:::oh-my-zsh:(plugin|theme|lib):name
-	| | |			|				   |
-	| | |			|				   `- You can set plugin,theme or lib name
-	| | |			|					  Ex : :::oh-my-zsh:plugin:arch
-	| | |			|					  Note: if you want to use any theme i recomand you to active git lib (ex: ::master:oh-my-zsh:lib:git)
-	| | |			|
-	| | |			`- Set the Plugin Type
-	| | |			   if set Theme,lib just give the name no Extantions
-	| | |
-	| | `-  Leave it as it is
-	| |
-	| `- Just leave it Empty
-	|
-	`- Add # To Disable only this plugin
+    ```
+    #:::oh-my-zsh:(plugin|theme|lib):name
+    | | |         |                  |
+    | | |         |                  `- You can set plugin,theme or lib name
+    | | |         |                     Ex : :::oh-my-zsh:plugin:arch
+    | | |         |                     Note: if you want to use any theme i recomand you to active git lib (ex: ::master:oh-my-zsh:lib:git)
+    | | |         |
+    | | |         `- Set the Plugin Type
+    | | |            if set Theme,lib just give the name no Extantions
+    | | |
+    | | `-  Leave it as it is
+    | |
+    | `- Just leave it Empty
+    |
+    `- Add # To Disable only this plugin
 
-	Examples:
-		ZSHING_PLUGINS=(
-			# load arch plugin from oh-my-zsh
-			":::oh-my-zsh:plugin:arch"
-		)
+    Examples:
+        ZSHING_PLUGINS=(
+            # load arch plugin from oh-my-zsh
+            ":::oh-my-zsh:plugin:arch"
+        )
 
-	```
+    ```
 
 4. Configure Plugins:
 
    Put this at the top of your `.zshrc` to use Zshing. Remove plugins you don't need, they are for illustration purposes.
 
    ```zsh
-	# Zshing Main Dir
+    # Zshing Main Dir
     ZSHING_DIR="$HOME/.zshing"
 
     # Set Plugin configuration Before ZSHING_PLUGINS {{{
     ZSHING_PLUGINS=(
-		# disable plugin, this plugin will update but won't load zsh
-		"#:zakariagatter/zshing:master:gitlab:plugin:zshing"
+        # disable plugin, this plugin will update but won't load zsh
+        "#:zakariagatter/zshing:master:gitlab:plugin:zshing"
     )
-	# }}}
+    # }}}
 
     # set here all plugins Settings and arguments before you source Zshing {{{
-	#}}}
+    #}}}
 
     # source zshing plugin
     source "$ZSHING_DIR/zshing/zshing.zsh"
@@ -157,7 +157,7 @@
 * [X] Update Plugins
 * [X] Clean Unwanted Plugins
 * [X] Disable Plugin and themes
-* [X] Install Plugins From Gitlab,BitBucket
+* [X] Install Plugins From Gitlab
 
 
 [Zshing]:http://gitlab.com/zakariagatter/zshing
