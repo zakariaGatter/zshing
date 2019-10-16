@@ -180,6 +180,22 @@ _source_all_
 }
 #}}}
 
+#-------------#
+# ZSHING HELP #
+#-------------#{{{
+zshing_help(){
+cat <<- HELP
+ZSHING Zsh Plugin to manage Plugin similar to VundleVim
+
+CMDS :
+    zshing_install  [Install Plugin direct from Local or Online git Repos]
+    zshing_update   [Update existing Plugins in your system]
+    zshing_clean    [Clean and Remove unwanted Plugins]
+    zshing_help     [Show this help Dialog]
+HELP
+}
+#}}}
+
 #-------------------#
 # OH MY ZSH PLUGINS #
 #-------------------#{{{

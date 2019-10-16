@@ -54,7 +54,7 @@
     | |             |      |    |    `- NAME: name option to add the same plugin or theme many time with different names
     | |             |      |    |             leave it empty to take repo name as repo
     | |             |      |    |
-    | |             |      |    `- TYPE: What the type of this Plugin, default value: (plugin|theme|completion|rc)
+    | |             |      |    `- TYPE: What the type of this Plugin, default value: (plugin|theme|completion)
     | |             |      |
     | |             |      `- SITE: Where to Download this repo from, default value: (gitlab|github|local|https://*)
     | |             |         you can set full url of website, the URL Need to support git clone
@@ -70,10 +70,10 @@
     Examples:
         ZSHING_PLUGINS=(
             # disable plugin, this plugin will update but won't load with zsh
-            "#:zakariagatter/zshing:master:gitlab:plugin:zshing"
+            "#:zakariagatter/zshing:master:github:plugin:zshing"
 
             # Gitlab Plugin
-            ":zakariagatter/markgate:master:gitlab:plugin:"
+            ":zakariagatter/markgate:master:github:plugin:"
 
             # load arch plugin from oh-my-zsh
             ":::oh-my-zsh:plugin:arch"
@@ -119,6 +119,12 @@
     ZSHING_PLUGINS=(
         # disable plugin, this plugin will update but won't load zsh
         "#:zakariagatter/zshing:master:gitlab:plugin:zshing"
+
+        # load git lib from oh-my-zsh to use git_prompt_info
+        ":::oh-my-zsh:lib:git"
+
+        # load color-man plugin from oh-my-zsh
+        ":::oh-my-zsh:plugin:colored-man-pages"
     )
     # }}}
 
@@ -136,12 +142,9 @@
 ## Using Zshing
 
 ```
-    ZSHING ( 0.4 )
-    Write by Zakaria Gatter (zakaria.gatter@gmail.com)
+    ZSHING Zsh Plugin to manage Plugin similar to VundleVim
 
-    Zsh Plugin to manage Plugin similar to VundleVim
-
-    OPTS :
+    CMDS :
         zshing_install  [Install Plugin direct from Local or Online git Repos]
         zshing_update   [Update existing Plugins in your system]
         zshing_clean    [Clean and Remove unwanted Plugins]
