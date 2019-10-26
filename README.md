@@ -16,7 +16,7 @@
 * keep track of and configure your plugins right in the `.zshrc`
 * Install Zsh plugins from Github or Locally
 * Install zsh Plugins from Gitlab and BitBucket and other sites
-* Loas plugins from oh-my-zsh
+* Load plugins from oh-my-zsh
 * Disable zsh Plugin by add "#" at first
     * `this plugin wont be removed but wont be load when start zsh, its useful for themes`
 * Update Zsh plugins
@@ -75,8 +75,8 @@
             # Gitlab Plugin
             ":zakariagatter/markgate:master:github:plugin:"
 
-            # load arch plugin from oh-my-zsh
-            ":::oh-my-zsh:plugin:arch"
+            # Local plugin
+            ":/path/to/plugin::local:plugin:"
         )
 
     ```
@@ -115,10 +115,13 @@
     # Zshing Main Dir
     ZSHING_DIR="$HOME/.zshing"
 
-    # Set Plugin configuration Before ZSHING_PLUGINS {{{
+    # Set Plugin configuration Before ZSHING_PLUGINS
     ZSHING_PLUGINS=(
         # disable plugin, this plugin will update but won't load zsh
         "#:zakariagatter/zshing:master:gitlab:plugin:zshing"
+
+        # load local plugin
+        ":$HOME/plugin::local:plugin:"
 
         # load git lib from oh-my-zsh to use git_prompt_info
         ":::oh-my-zsh:lib:git"
@@ -126,10 +129,8 @@
         # load color-man plugin from oh-my-zsh
         ":::oh-my-zsh:plugin:colored-man-pages"
     )
-    # }}}
 
-    # set here all plugins Settings and arguments before you source Zshing {{{
-    #}}}
+    # set here all plugins Settings and arguments before you source Zshing
 
     # source zshing plugin
     source "$ZSHING_DIR/zshing/zshing.zsh"

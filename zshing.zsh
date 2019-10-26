@@ -94,10 +94,7 @@ for i (${ZSHING_PLUGINS[@]}); do
 		local _repo_=${P[2]}
 		local _branch_=${P[3]:-master} # if branch empty take master
 		local _site_=${P[4]:-github}
-		local _name_=${P[6]}
-
-		# if name empty take plugin name
-		_name_=${_name_:-${_repo_:t}}
+		local _name_=${P[6]:-${_repo_:t}}
 
 		# if local, do nothing
 		if [ "$_site_" = "local" ]; then
@@ -128,14 +125,14 @@ _source_all_
 # ZSHING UPDATE FUNCTION #
 #------------------------#{{{
 zshing_update(){
-for i (${ZSHING_DIR_LIST[@]}); do
+for i (${ZSHING_LIST[@]}); do
 	local _name_=${i:t}
 
-	cd -- "$i"
+	\cd -- $i
 
 	_git_pull_ "$_name_"
 
-	cd -- "$OLDPWD"
+	\cd -- $OLDPWD
 done
 
 _source_all_
@@ -152,10 +149,7 @@ for i (${ZSHING_PLUGINS[@]}); do
 	while IFS=":" read -A p; do
 		local _repo_=${p[2]}
 		local _site_=${p[4]}
-		local _name_=${p[6]}
-
-		# if name empty use repo name
-		[ -z "$_name_" ] && _name_=${_repo_:t}
+		local _name_=${p[6]:-${_repo_:t}}
 
 		# if u use oh-my-zsh
 		[ "$_site_" = "oh-my-zsh" ] && _name_="oh-my-zsh"
@@ -171,8 +165,7 @@ done
 
 # all plugins left in ZSHING_LIST are those are not in ZSHING_PLUGINS so lets remove them
 for i ( $ZSHING_LIST ); do
-	\rm -rf "$i"
-	echo -e "[-] ${i:t} : Removed Successfully"
+	\rm -rf "$i" 2> /dev/null && echo -e "[-] ${i:t} : Removed Successfully"
 done
 
 _source_all_
@@ -259,11 +252,6 @@ elif [ "$_type" = "theme" ]; then
 # simple completion
 elif [ "$_type" = "completion" ]; then
 	test -f "$ZSHING_DIR/$_name/_$_name" && { fpath=($ZSHING_DIR/$_name $fpath); ((_s_++)); }
-# simple Rc
-elif [ "$_type" = "rc" ]; then
-	for i ($ZSHING_DIR/$_name/{.zshrc,zshrc,.zshrc.local,init.zsh,rc.zsh}) ; do
-		test -f "$i" && { source "$i"; ((_s_++)) ;}
-	done
 # simple else
 else
 	echo -e "[X] $_name : $_type Wrong type please see help for more information"
@@ -271,6 +259,41 @@ else
 fi
 
 [ "$_s_" -eq 0 ] &&  echo -e "[X] $_name : Can't Source this $_type "
+}
+#}}}
+
+#--------------#
+# LOCAL PLUGIN #
+#--------------#{{{
+_local_plugin_(){
+local _dir_=${1}
+local _type=${2}
+local _name=${3:-${_dir_:t}}
+local l=0
+
+if [ -d "$_dir_" ] ;then
+    # simple plugin
+    if [ "$_type" = "plugin" ]; then
+        for i ($_dir_/$_name.{zsh,plugin.zsh,zsh.plugin,zshplugin,zp.zsh} $_dir_/init.zsh) ; do
+            test -f "$i" && { source "$i"; ((l++)) ;}
+        done
+    # simple theme
+    elif [ "$_type" = "theme" ]; then
+        for i ($_dir_/$_name.{zsh-theme,zsh,zt.zsh} $_dir_/init.zsh) ; do
+            test -f "$i" && { source "$i"; ((l++)) ;}
+        done
+    # simple completion
+    elif [ "$_type" = "completion" ]; then
+        test -f "/$_dir_/_$_name" && { fpath=($_dir_ $fpath); ((l++)) ;}
+    # simple else
+    else
+        echo -e "[X] $_name : $_type Wrong type please see help for more information"
+        break
+    fi
+    [ "$l" = "0" ] && echo -e "[X] $_dir_: Can't Source this $_type "
+else
+	echo -e "[X] $_dir_ No Such Directory"
+fi
 }
 #}}}
 
@@ -288,18 +311,24 @@ for i (${ZSHING_PLUGINS[@]}); do
 		local _type_=${p[5]}
 		local _name_=${p[6]}
 
-		# dont load the comment one
-		# and dont source zshing plugin to prevent a stupid loop
+		# don't load the comment one
+		# and don't source zshing plugin to prevent a stupid loop
 		[ "$_stat_" = "#" -o "${_repo_:t}" = "zshing" ] && continue
 
 		# oh-my-zsh plugins
 		[ "$_site_" = "oh-my-zsh" ] && {
-			_oh_my_zsh_ "$_name_" "$_type_"
-			continue
-		}
+            _oh_my_zsh_ "$_name_" "$_type_"
+            continue
+        }
 
 		# if the name empty use the repo name
 		_name_=${_name_:-${_repo_:t}}
+
+        # if local plugin
+        [ "$_site_" = "local" ] && {
+            _local_plugin_ "$_repo_" "$_type_" "$_name_"
+            continue
+        }
 
 		# simple plugins
 		_simple_plugins_ "$_type_" "$_name_"
@@ -311,7 +340,7 @@ done
 # AUTO REMOVE DUPLICATES FROM THESE ARRAYS
 typeset -U fpath
 
-# AUTOLOAD ALL ZSH FUNCTIONS
+# AUTO LOAD ALL ZSH FUNCTIONS
 for func in $^fpath/*(N-.x:t); autoload $func
 
 }
