@@ -61,7 +61,7 @@
     | |             |         Local is for local plugins
     | |             |         leave it empty to take github as default
     | |             |
-    | |             `- BRANCH: use any branch you like, leave it empty tp take Master as default
+    | |             `- BRANCH: use any branch you like, leave it empty to take Master as default
     | |
     | `- REPO: repo name can be as above or as a plugin dir, ex: ($HOME/path/to/plugin)
     |
@@ -117,7 +117,7 @@
 
     # Set Plugin configuration Before ZSHING_PLUGINS
     ZSHING_PLUGINS=(
-        # disable plugin, this plugin will update but won't load zsh
+        # disable plugin, jeep this plugin disable to avoid stupid loop
         "#:zakariagatter/zshing:master:gitlab:plugin:zshing"
 
         # load local plugin
