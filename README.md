@@ -36,7 +36,8 @@
 1. Introduction:
 
    Installation requires :
-    * __Git__ triggers `git clone` for each configured repository to `~/zshing` by default.
+    * [Git]() triggers `git clone` for each configured repository to `~/zshing` by default.
+    * [Zsh]() Shell I create this plugin manager for
 
 2. Set up [Zshing]:
 
@@ -56,7 +57,8 @@
     | |             |      |    |
     | |             |      |    `- TYPE: What the type of this Plugin, default value: (plugin|theme|completion)
     | |             |      |
-    | |             |      `- SITE: Where to Download this repo from, default value: (gitlab|github|local|https://*)
+    | |             |      `- SITE: Where to Download this repo from, like : (gitlab|github|local)
+    | |             |               Or you can set link like : (*git://**|https://*|http://*|ssh://*|git@*)
     | |             |         you can set full url of website, the URL Need to support git clone
     | |             |         Local is for local plugins
     | |             |         leave it empty to take github as default
@@ -64,6 +66,7 @@
     | |             `- BRANCH: use any branch you like, leave it empty to take Master as default
     | |
     | `- REPO: repo name can be as above or as a plugin dir, ex: ($HOME/path/to/plugin)
+    |          Don't give repo name if you use Link in SITE
     |
     `- STAT: add # to disable this plugin, the plugin keep updating and will not remove but wont load with zsh
 
@@ -74,6 +77,7 @@
 
             # Gitlab Plugin
             ":zakariagatter/markgate:master:github:plugin:"
+            "::master:https://github.com/zakariagatter/markedit:plugin:"
 
             # Local plugin
             ":/path/to/plugin::local:plugin:"
@@ -123,6 +127,9 @@
         # load local plugin
         ":$HOME/plugin::local:plugin:"
 
+        #full site
+        ":::https://github.com/zakariagatter/markedit:plugin:"
+
         # load git lib from oh-my-zsh to use git_prompt_info
         ":::oh-my-zsh:lib:git"
 
@@ -162,6 +169,7 @@
 * [X] Clean Unwanted Plugins
 * [X] Disable Plugin and themes
 * [X] Install Plugins From Gitlab
+* [X] Install Plugins from any site support git
 
 
 [Zshing]:http://gitlab.com/zakariagatter/zshing
