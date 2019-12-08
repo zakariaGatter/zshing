@@ -103,8 +103,8 @@ done
 # PULL REOSITORY #
 #----------------#
 _pull_(){
-local _repo_=${1}
-local _name_=${_repo_:t}
+local     _repo_=${1}
+local     _name_=${_repo_:t}
 local _progress_=( "-" "\\" "|" "/" )
 
 [ -d "$_repo_/.git" ] && {
@@ -164,11 +164,49 @@ for i ( ${ZSHING_LIST[@]} ); { rm -rf "$i" && _success_ "'${i:t}' Removed Succes
 #----------------------#
 zshing_update(){
 local _dir_
-for _dir_ ( $ZSHING_LIST[@] ); do
+for _dir_ ( $ZSHING_LIST[@] ); {
     builtin cd -- "$_dir_"
     _pull_ "$_dir_"
     builtin cd -- "$OLDPWD"
-done
+}
+}
+
+#------------------#
+# OH-MY-ZSH SOURCE #
+#------------------#
+_source_omz_(){
+local _omz_="$ZSHING_DIR/oh-my-zsh"
+local plug="$1"
+local type="$2"
+
+}
+
+#----------------------#
+# SIMPLE PLUGIN SOURCE #
+#----------------------#
+_source_plug_(){
+local plug="$1"
+local type="$2"
+
+}
+
+#--------------------#
+# SOURCE ALL PLUGINS #
+#--------------------#
+_source_(){
+local _plug_
+while read -r _plug_ ; do
+
+    _get_ "$_plug_"
+
+    if [ "$_site_" = "oh-my-zsh" ]; then
+        _source_omz_ "$_name_" "$_type_"
+    elif [ "$_site_" = "local" ]; then
+        [ -d "$ZSHING_DIR/$_name_" ] && _source_plug_ "$_name_" "$_type_" || _failed_ "'$_name_' No File or Directory"
+    else
+        _source_plug_ "$_name_" "$_type_"
+    fi
+done <<< ${(F)ZSHING_PLUGINS[@]}
 }
 
 #vim: ft=sh
