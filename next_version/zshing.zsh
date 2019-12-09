@@ -4,7 +4,7 @@
 #--------------#
 # SCRIPT NAME  #
 #--------------#
-name=${0##*/}
+name="zshing"
 version="0.3"
 
 #------------------#
@@ -12,13 +12,14 @@ version="0.3"
 #------------------#
 ZSHING_DIR="${ZSHING_DIR:-$HOME/.zshing}"
 ZSHING_LIST=( $ZSHING_DIR/* )
-ZSHING_SITES=( [github]="https://github.com" [gitlab]="https://gitlab.com" )
+declare -A ZSHING_SITES=( [github]="https://github.com" [gitlab]="https://gitlab.com" )
 
 #----------------------#
 # LOAD STOCK FUNCTIONS #
 #----------------------#
 autoload -U compaudit compinit colors
-compinit && colors
+compinit
+colors
 setopt ignore_close_braces
 
 #---------------------------------#
@@ -209,4 +210,4 @@ while read -r _plug_ ; do
 done <<< ${(F)ZSHING_PLUGINS[@]}
 }
 
-#vim: ft=sh
+# vim: ft=zsh
